@@ -12,7 +12,7 @@ describe Cuboid do
     let(:dimensions) { [3, 4, 5] }
     let(:cuboid) { Cuboid.new(origin: origin, dimensions: dimensions) }
 
-    it 'has the specified length' do
+    it 'shows the length' do
       expect(cuboid.length).to eq(3)
     end
   end
@@ -22,7 +22,7 @@ describe Cuboid do
     let(:dimensions) { [3, 4, 5] }
     let(:cuboid) { Cuboid.new(origin: origin, dimensions: dimensions) }
 
-    it 'has the specified width' do
+    it 'shows the width' do
       expect(cuboid.width).to eq(4)
     end
   end
@@ -32,7 +32,7 @@ describe Cuboid do
     let(:dimensions) { [3, 4, 5] }
     let(:cuboid) { Cuboid.new(origin: origin, dimensions: dimensions) }
 
-    it 'has the specified height' do
+    it 'shows the height' do
       expect(cuboid.height).to eq(5)
     end
   end
@@ -42,8 +42,8 @@ describe Cuboid do
     let(:dimensions) { [3, 4, 5] }
     let(:cuboid) { Cuboid.new(origin: origin, dimensions: dimensions) }
 
-    it 'has a list of vertices according to its origin and dimensions' do
-      expect(cuboid.vertices).to match_array([[2, 1, 3], [2, 1, 5], [2, 6, 3], [2, 6, 5], [5, 1, 3], [5, 1, 5], [5, 6, 3], [5, 6, 5]])
+    it 'shows the collection of vertices according to its origin and dimensions' do
+      expect(cuboid.vertices).to match_array([[2, 1, 3], [2, 1, 8], [2, 5, 3], [2, 5, 8], [5, 1, 3], [5, 1, 8], [5, 5, 3], [5, 5, 8]])
     end
   end
  

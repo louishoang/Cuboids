@@ -1,9 +1,11 @@
 class Cuboid
+  #BEGIN public methods that should be your starting point
   attr_reader :origin, :dimensions
 
   def initialize(origin:, dimensions:)
     @origin = origin
     @dimensions = dimensions
+    @vertices = Vertices.new(origin: origin, dimensions: dimensions)
   end
 
   def length
@@ -17,6 +19,11 @@ class Cuboid
   def height
     dimensions[2]
   end
+
+  def vertices
+    @vertices.collection
+  end
+
 
   def move_to!(x, y, z)
   end
