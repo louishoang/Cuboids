@@ -47,9 +47,26 @@ describe Cuboid do
     end
   end
 
-  describe "move_to" do
+  describe '#move_to' do
+    let(:cuboid) { Cuboid.new(origin: [2, 1, 3], dimensions: [3, 4, 5]) }
+
+    context "when there aren't any restricting walls or other cuboids" do
+      let(:new_origin) { [0, 0, 0] }
+
+      before :each do
+        cuboid.move_to(new_origin)
+      end
+
+      it 'translates a cuboid from its initial origin to a new origin' do
+        expect(cuboid.origin).to eq(new_origin)
+      end
+
+      it 'translates each vertex of the cuboid to a new point' do
+        expect(cuboid.vertices).to match_array([[0, 0, 0], [0, 0, 5], [0, 4, 0], [0, 4, 5], [3, 0, 0], [3, 0, 5], [3, 4, 0], [3, 4, 5]])
+      end
+    end
   end    
-  
+
   describe 'intersects?' do
     let(:origin) { [0, 0, 0] }
     let(:dimensions) { [4, 4, 4] }

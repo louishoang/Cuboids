@@ -1,6 +1,6 @@
 class Cuboid
   #BEGIN public methods that should be your starting point
-  attr_reader :origin, :dimensions, :faces
+  attr_reader :origin, :dimensions
 
   def initialize(origin:, dimensions:)
     @origin = origin
@@ -22,22 +22,33 @@ class Cuboid
   end
 
   def volume
-    @volume ||= length * width * height 
+    @volume ||= length * width * height
   end
 
   def vertices
     @vertices.collection
   end
 
-  def move_to!(x, y, z)
-  end
-
-  #returns true if the two cuboids intersect each other.  False otherwise.
   def intersects?(other)
     if volume <= other.volume
       faces.overlap?(other.faces)
     else
       other.intersects?(self)
     end
+  end
+
+  def move_to(new_origin)
+    move_to!(new_origin)
+  end
+
+  protected
+
+  attr_reader :faces
+
+  private
+
+  def move_to!(new_origin)
+    @origin = new_origin
+    @vertices.update(origin: new_origin)
   end
 end
