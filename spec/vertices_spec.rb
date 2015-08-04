@@ -18,7 +18,7 @@ describe Vertices do
     context 'when given both a new origin and new dimensions' do
       it 'updates the collection of vertices' do
         vertices.update({ origin: [5, 6, 7], dimensions: [1, 1, 1] })
-        
+
         expect(vertices.collection).to match_array([[5, 6, 7], [5, 6, 8], [5, 7, 7], [5, 7, 8], [6, 6, 7], [6, 6, 8], [6, 7, 7], [6, 7, 8]])
       end
     end
