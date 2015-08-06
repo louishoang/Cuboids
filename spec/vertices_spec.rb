@@ -1,20 +1,16 @@
-require 'vertices'
+require 'spec_helper'
 
 describe Vertices do
-  describe '#collection' do
-    let(:vertices) { Vertices.new(origin: [2, 1, 3], dimensions: [3, 4, 5]) }
+  let(:vertices) { Vertices.new(origin: [2, 1, 3], dimensions: [3, 4, 5]) }
 
+  describe '#collection' do
     it 'shows the collection of vertices according to its origin and dimensions' do
       expect(vertices.collection.length).to eq(8)
-
       expect(vertices.collection).to match_array([[2, 1, 3], [2, 1, 8], [2, 5, 3], [2, 5, 8], [5, 1, 3], [5, 1, 8], [5, 5, 3], [5, 5, 8]])
     end
   end
 
   describe '#update' do
-    let(:vertices) { Vertices.new(origin: [2, 1, 3], dimensions: [3, 4, 5]) }
-    let(:new_origin) { [0, 0, 0] }
-
     context 'when given both a new origin and new dimensions' do
       it 'updates the collection of vertices' do
         vertices.update({ origin: [5, 6, 7], dimensions: [1, 1, 1] })

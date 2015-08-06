@@ -1,4 +1,4 @@
-require 'boundaries'
+require 'spec_helper'
 
 describe Boundaries do
   describe '#overlap?' do
@@ -8,7 +8,7 @@ describe Boundaries do
       let(:faces) { Faces.new(origin: [9, 9, 9], dimensions: [2, 2, 2]) }
 
       it 'returns true' do
-        expect(boundaries.out_of_bounds?(faces)).to be true
+        expect(boundaries.has_outside_or_overlapping?(faces)).to be true
       end
     end
 
@@ -16,15 +16,15 @@ describe Boundaries do
       let(:faces) { Faces.new(origin: [1, 1, 1], dimensions: [2, 2, 2]) }
 
       it 'returns false' do
-        expect(boundaries.out_of_bounds?(faces)).to be false
+        expect(boundaries.has_outside_or_overlapping?(faces)).to be false
       end
     end
 
-    context 'when a set of faces is completely outside a set of boundaries' do
+    context 'when a set of faces is completely outside of a set of boundaries' do
       let(:faces) { Faces.new(origin: [11, 11, 11], dimensions: [1, 1, 1]) }
 
       it 'returns true' do
-        expect(boundaries.out_of_bounds?(faces)).to be true
+        expect(boundaries.has_outside_or_overlapping?(faces)).to be true
       end
     end
 
@@ -32,7 +32,7 @@ describe Boundaries do
       let(:faces) { Faces.new(origin: [10, 0, 0], dimensions: [2, 2, 2]) }
 
       it 'returns true' do
-        expect(boundaries.out_of_bounds?(faces)).to be true
+        expect(boundaries.has_outside_or_overlapping?(faces)).to be true
       end
     end
 
@@ -40,7 +40,7 @@ describe Boundaries do
       let(:faces) { Faces.new(origin: [0, 0, 0], dimensions: [2, 2, 2]) }
 
       it 'returns false' do
-        expect(boundaries.out_of_bounds?(faces)).to be false
+        expect(boundaries.has_outside_or_overlapping?(faces)).to be false
       end
     end
 
@@ -48,7 +48,7 @@ describe Boundaries do
       let(:faces) { Faces.new(origin: [0, 0, 0], dimensions: [10, 10, 10]) }
 
       it 'returns false' do
-        expect(boundaries.out_of_bounds?(faces)).to be false
+        expect(boundaries.has_outside_or_overlapping?(faces)).to be false
       end
     end
   end
