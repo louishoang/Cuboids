@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Boundaries do
-  describe '#overlap?' do
+  describe '#has_outside_or_overlapping?' do
     let(:boundaries) { Boundaries.new(origin: [0, 0, 0], dimensions: [10, 10, 10])}
 
     context 'when a set of boundaries has 3 overlaps with a set of faces' do
@@ -44,7 +44,7 @@ describe Boundaries do
       end
     end
 
-    context 'when a set of faces coincides completely with the boundary' do
+    context 'when a set of faces aligns completely with the set of boundaries' do
       let(:faces) { Faces.new(origin: [0, 0, 0], dimensions: [10, 10, 10]) }
 
       it 'returns false' do

@@ -26,8 +26,6 @@ class Faces
     @collection = build_collection
   end
 
-  protected
-
   def yz_planes
     @yz_planes ||= determine_planes(0)
   end
@@ -50,8 +48,8 @@ class Faces
 
   def determine_planes(idx)
     lesser_plane, greater_plane = origin[idx], origin[idx] + dimensions[idx]
-    
-    if lesser_plane > greater_plane 
+
+    if lesser_plane > greater_plane
       lesser_plane, greater_plane = greater_plane, lesser_plane
     end
 
@@ -72,4 +70,3 @@ class Faces
     both_align?(face_planes, other_face_planes) || overlapping?(face_planes, other_face_planes)
   end
 end
-
