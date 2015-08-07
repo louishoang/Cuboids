@@ -46,9 +46,13 @@ class Cuboid
     end
   end
 
-  def move_to(new_origin)
+  def move_to(new_origin:)
     raise InvalidMoveError unless can_move?(new_origin)
     move_to!(new_origin)
+  end
+
+  def rotate(about_dimension:, clockwise:)
+    rotate!(about_dimension, clockwise)
   end
 
   private
@@ -61,5 +65,34 @@ class Cuboid
 
   def can_move?(new_origin)
     !container.has_move_violations_with?(self, new_origin)
+  end
+
+  def rotate!(axis, clockwise)
+    # axis should be 0, 1, or 2, corresponding with which axis
+    # x => 0; y => 1, z => 2
+    first_dim, second_dim = dimensions.take(axis) + dimensions.drop(axis + 1)
+    if axis == 0
+      first_dim, second_dim = clockwise ? [(second_dim * -1), first_dim] : [second_dim, (first_dim * -1)]
+    else
+      first_dim, second_dim = clockwise ? [second_dim, (first_dim * -1)] : [(second_dim * -1), first_dim]
+    end
+
+    update_dimensions(axis, [first_dim, second_dim])
+    @vertices.update(dimensions: dimensions)
+    @faces.update(dimensions: dimensions)
+  end
+
+  def update_dimensions(axis, replacements)
+    idx = 0
+
+    dimensions.each_index do |dim_idx|
+      next if dim_idx == axis
+      dimensions[dim_idx] = replacements[idx] 
+      idx += 1
+    end
+  end
+
+  def can_rotate?(about_dimension, clockwise)
+    !container.has_rotation_violations_with?(self, new_origin)
   end
 end
