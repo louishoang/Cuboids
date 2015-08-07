@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Container do
   let(:container) { Container.new(origin: [0, 0, 0], dimensions: [10, 10, 10]) }
 
-  context 'when initialized without a specified origin' do
+  context 'when initialized without an origin or dimensions' do
     it 'raises an ArgumentError' do
       expect { Container.new }.to raise_error(ArgumentError)
     end
@@ -40,14 +40,14 @@ describe Container do
   end
 
   describe '#vertices_collection' do
-    it 'shows the collection of vertices according to its origin and dimensions' do
+    it 'shows the collection of vertices' do
       expect(container.vertices_collection).to match_array([[0, 0, 0], [0, 0, 10], [0, 10, 0], [0, 10, 10], [10, 0, 0], [10, 0, 10], [10, 10, 0], [10, 10, 10]])
     end
   end
 
   describe '#add_cuboid' do
     context 'when given an origin and dimensions within the container' do
-      it 'adds a new cuboid into the cuboid collection' do
+      it 'adds a new cuboid into the cuboids collection' do
         container.add_cuboid([0, 0, 0], [1, 1, 1])
 
         expect(container.cuboids_collection.length).to eq(1)

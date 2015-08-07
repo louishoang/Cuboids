@@ -41,13 +41,13 @@ describe Cuboid do
   end
 
   describe '#vertices_collection' do
-    it 'shows the collection of vertices according to its origin and dimensions' do
+    it 'shows the collection of vertices' do
       expect(cuboid.vertices_collection).to match_array([[2, 1, 3], [2, 1, 8], [2, 5, 3], [2, 5, 8], [5, 1, 3], [5, 1, 8], [5, 5, 3], [5, 5, 8]])
     end
   end
 
   describe '#faces_collection' do
-    it 'shows the collection of face values according to its origin and dimensions' do
+    it 'shows the collection of face values' do
       expect(cuboid.faces_collection).to match_array([[1, 5], [2, 5], [3, 8]])
     end
   end
@@ -150,7 +150,7 @@ describe Cuboid do
         expect(cuboid.vertices_collection).to match_array([[0, 0, 0], [0, 0, 5], [0, 4, 0], [0, 4, 5], [3, 0, 0], [3, 0, 5], [3, 4, 0], [3, 4, 5]])
       end
 
-      it 'changes the face values of the cuboid according to its new origin' do
+      it 'changes the face values of the cuboid' do
         expect(cuboid.faces_collection).to match_array([[0, 3], [0, 4], [0, 5]])
       end
     end
@@ -176,13 +176,13 @@ describe Cuboid do
     let(:cuboid) { Cuboid.new(origin: [4, 5, 0], dimensions: [3, 4, 5], container: container) }
 
     context "when there aren't restricting boundaries or other cuboids" do
-      it 'rotates the cuboid according to a specified axis and direction' do
+      it 'rotates the cuboid 90 degrees counter-clockwise about the specified axis' do
         cuboid.rotate_along(axis: 2, clockwise: false)
 
         expect(cuboid.dimensions).to eq([-4, 3, 5])
       end
 
-      it 'rotates the cuboid according to another specified axis and direction' do
+      it 'rotates the cuboid 90 degrees clockwise about the specified axis' do
         cuboid.rotate_along(axis: 0, clockwise: true)
 
         expect(cuboid.dimensions).to eq([3, -5, 4])

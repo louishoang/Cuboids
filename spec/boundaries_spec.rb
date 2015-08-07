@@ -4,14 +4,14 @@ describe Boundaries do
   let(:boundaries) { Boundaries.new(origin: [0, 0, 0], dimensions: [10, 10, 10])}
 
   describe '#collection' do
-    it 'shows the collection of face values according to its origin and dimensions' do
+    it 'shows the collection of face values' do
       expect(boundaries.collection.length).to eq(3)
       expect(boundaries.collection).to match_array([[0, 10], [0, 10], [0, 10]])
     end
   end
 
   describe '#has_outside_or_overlapping?' do
-    context 'when a set of boundaries has 3 overlaps with a set of faces' do
+    context 'when the set of faces overlaps with the set of boundaries in 3 dimensions' do
       let(:faces) { Faces.new(origin: [9, 9, 9], dimensions: [2, 2, 2]) }
 
       it 'returns true' do
@@ -19,15 +19,7 @@ describe Boundaries do
       end
     end
 
-    context 'when a set of faces is completely within a set of boundaries' do
-      let(:faces) { Faces.new(origin: [1, 1, 1], dimensions: [2, 2, 2]) }
-
-      it 'returns false' do
-        expect(boundaries.has_outside_or_overlapping?(faces)).to be false
-      end
-    end
-
-    context 'when a set of faces is completely outside of a set of boundaries' do
+    context 'when a set of faces is completely outside of the set of boundaries' do
       let(:faces) { Faces.new(origin: [11, 11, 11], dimensions: [1, 1, 1]) }
 
       it 'returns true' do
@@ -40,6 +32,14 @@ describe Boundaries do
 
       it 'returns true' do
         expect(boundaries.has_outside_or_overlapping?(faces)).to be true
+      end
+    end
+
+    context 'when a set of faces is completely within the set of boundaries' do
+      let(:faces) { Faces.new(origin: [1, 1, 1], dimensions: [2, 2, 2]) }
+
+      it 'returns false' do
+        expect(boundaries.has_outside_or_overlapping?(faces)).to be false
       end
     end
 

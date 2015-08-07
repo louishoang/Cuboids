@@ -4,7 +4,7 @@ describe Faces do
   let(:faces) { Faces.new(origin: [0, 0, 0], dimensions: [4, 4, 4])}
 
   describe '#collection' do
-    it 'shows the collection of face values according to its origin and dimensions' do
+    it 'shows the collection of face values' do
       expect(faces.collection.length).to eq(3)
       expect(faces.collection).to match_array([[0, 4], [0, 4], [0, 4]])
     end
@@ -27,27 +27,11 @@ describe Faces do
       end
     end
 
-    context 'when a set of faces is completely outside of another' do
-      let(:other_faces) { Faces.new(origin: [1, 1, 1], dimensions: [2, 2, 2]) }
-
-      it 'returns false' do
-        expect(faces.are_aligning_or_overlapping_with?(other_faces)).to be false
-      end
-    end
-
     context 'when a set of faces is partially within another' do
       let(:other_faces) { Faces.new(origin: [3, 1, 1], dimensions: [2, 2, 2]) }
 
       it 'returns true' do
         expect(other_faces.are_aligning_or_overlapping_with?(faces)).to be true
-      end
-    end
-
-    context 'when a set of faces is partially outside of another' do
-      let(:other_faces) { Faces.new(origin: [3, 1, 1], dimensions: [2, 2, 2]) }
-
-      it 'returns false' do
-        expect(faces.are_aligning_or_overlapping_with?(other_faces)).to be false
       end
     end
 
@@ -72,6 +56,22 @@ describe Faces do
 
       it 'returns true' do
         expect(faces.are_aligning_or_overlapping_with?(other_faces)).to be true
+      end
+    end
+
+    context 'when a set of faces is completely outside of another' do
+      let(:other_faces) { Faces.new(origin: [1, 1, 1], dimensions: [2, 2, 2]) }
+
+      it 'returns false' do
+        expect(faces.are_aligning_or_overlapping_with?(other_faces)).to be false
+      end
+    end
+
+    context 'when a set of faces is partially outside of another' do
+      let(:other_faces) { Faces.new(origin: [3, 1, 1], dimensions: [2, 2, 2]) }
+
+      it 'returns false' do
+        expect(faces.are_aligning_or_overlapping_with?(other_faces)).to be false
       end
     end
 
@@ -109,14 +109,6 @@ describe Faces do
   end
 
   describe '#update' do
-    context 'when given both a new origin and new dimensions' do
-      it 'updates the collection of face values' do
-        faces.update({ origin: [5, 6, 7], dimensions: [1, 1, 1] })
-
-        expect(faces.collection).to match_array([[5, 6], [6, 7], [7, 8]])
-      end
-    end
-
     context 'when given only a new origin' do
       it 'updates the collection of face values according to its new origin' do
         faces.update({ origin: [1, 1, 1] })
@@ -130,6 +122,14 @@ describe Faces do
         faces.update({ dimensions: [5, 6, 7] })
 
         expect(faces.collection).to match_array([[0, 5], [0, 6], [0, 7]])
+      end
+    end
+
+    context 'when given both a new origin and new dimensions' do
+      it 'updates the collection of face values according to both properties' do
+        faces.update({ origin: [5, 6, 7], dimensions: [1, 1, 1] })
+
+        expect(faces.collection).to match_array([[5, 6], [6, 7], [7, 8]])
       end
     end
   end
