@@ -68,7 +68,10 @@ class Cuboid
 
   def dimensions_according_to(axis, clockwise)
     first_dim, second_dim = dimensions.take(axis) + dimensions.drop(axis + 1)
+    determine_dimensions_from(axis, clockwise, first_dim, second_dim)
+  end
 
+  def determine_dimensions_from(axis, clockwise, first_dim, second_dim)
     if axis == 0
       clockwise ? [(second_dim * -1), first_dim] : [second_dim, (first_dim * -1)]
     else
@@ -76,12 +79,10 @@ class Cuboid
     end
   end
 
-  def perform_rotation_along(axis, replacements)
-    idx = 0
-
+  def perform_rotation_along(axis, replacements, idx = 0)
     dimensions.each_index do |dim_idx|
       next if dim_idx == axis
-      dimensions[dim_idx] = replacements[idx]
+      @dimensions[dim_idx] = replacements[idx]
       idx += 1
     end
   end
@@ -96,12 +97,12 @@ class Cuboid
 
   def can_move?(new_origin)
     dup_cuboid = Cuboid.new(origin: new_origin, dimensions: dimensions.dup, container: container)
-    !container.has_violations_with?(dup_cuboid)
+    !container.cannot_allow_move_for?(dup_cuboid)
   end
 
   def can_rotate?(axis, clockwise)
     dup_cuboid = Cuboid.new(origin: origin, dimensions: dimensions.dup, container: container)
     dup_cuboid.rotate_along!(axis, clockwise)
-    !container.has_violations_with?(dup_cuboid)
+    !container.cannot_allow_move_for?(dup_cuboid)
   end
 end

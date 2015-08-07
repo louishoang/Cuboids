@@ -1,4 +1,6 @@
 class Vertices
+  attr_reader :origin, :dimensions
+
   def initialize(origin:, dimensions:)
     @origin, @dimensions = origin, dimensions
   end
@@ -16,9 +18,8 @@ class Vertices
 
   private
 
-  def build_collection
+  def build_collection(counter = 0, dimension_idx = 0)
     collection = Array.new(8) { Array.new }
-    counter, dimension_idx = 0, 0
 
     3.times do |idx|
       element_count = 2 ** (2 - idx) # 4, 2, 1

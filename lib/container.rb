@@ -37,22 +37,35 @@ class Container
 
   def add_cuboid(origin, dimensions)
     cuboid = Cuboid.new(origin: origin, dimensions: dimensions, container: self)
-    raise StandardError if has_an_out_of_bounds?(cuboid) || has_other_intersecting_cuboid_with?(cuboid)
+    raise StandardError if has_violations_with?(cuboid)
     @cuboids << cuboid
   end
 
-  def has_violations_with?(cuboid)
-    dup_container = self.class.new(origin: origin.dup, dimensions: dimensions.dup)
+  def cannot_allow_move_for?(cuboid)
+    dup_container = duplicate_container_excluding(cuboid)
+    dup_container.has_violations_with?(cuboid)
+  end
 
+  protected
+
+  def has_violations_with?(cuboid)
+    has_an_out_of_bounds?(cuboid) || has_other_intersecting_cuboid_with?(cuboid)
+  end
+
+  private
+
+  def duplicate_container_excluding(cuboid)
+    dup_container = self.class.new(origin: origin.dup, dimensions: dimensions.dup)
+    add_other_cuboids_into(dup_container, cuboid)
+    dup_container
+  end
+
+  def add_other_cuboids_into(dup_container, cuboid)
     @cuboids.each do |other_cuboid|
       next if cuboid == other_cuboid
       dup_container.add_cuboid(other_cuboid.origin, other_cuboid.dimensions)
     end
-
-    dup_container.has_an_out_of_bounds?(cuboid) || dup_container.has_other_intersecting_cuboid_with?(cuboid)
   end
-
-  protected
 
   def has_other_intersecting_cuboid_with?(cuboid)
     @cuboids.any? do |other_cuboid|

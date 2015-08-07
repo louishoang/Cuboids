@@ -52,7 +52,7 @@ describe Cuboid do
     end
   end
 
-  describe 'intersects?' do
+  describe '#intersects?' do
     let(:cuboid) { Cuboid.new(origin: [0, 0, 0], dimensions: [4, 4, 4], container: container) }
 
     context 'when 2 cuboids intersect on 3 faces' do
@@ -119,7 +119,7 @@ describe Cuboid do
       end
     end
 
-    context "when 2 cuboids touch at an edge" do
+    context 'when 2 cuboids touch at an edge' do
       let(:other_cuboid) { Cuboid.new(origin: [4, 4, 0], dimensions: [4, 4, 4], container: container) }
 
       it 'returns false' do
@@ -127,7 +127,7 @@ describe Cuboid do
       end
     end
 
-    context "when 2 cuboids touch at a corner" do
+    context 'when 2 cuboids touch at a corner' do
       let(:other_cuboid) { Cuboid.new(origin: [4, 4, 4], dimensions: [4, 4, 4], container: container) }
 
       it 'returns false' do
