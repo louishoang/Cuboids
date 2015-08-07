@@ -7,11 +7,10 @@ class Vertices
     @collection ||= build_collection
   end
 
-  def update(properties)
-    properties = { origin: @origin, dimensions: @dimensions }.merge(properties)
-    @origin = properties[:origin] unless @origin == properties[:origin]
-    @dimensions = properties[:dimensions] unless @dimensions == properties[:dimensions]
-
+  def update(props)
+    props = { origin: origin, dimensions: dimensions }.merge(props)
+    @origin = props[:origin] unless origin == props[:origin]
+    @dimensions = props[:dimensions] unless dimensions == props[:dimensions]
     @collection = build_collection
   end
 
@@ -19,8 +18,7 @@ class Vertices
 
   def build_collection
     collection = Array.new(8) { Array.new }
-    counter = 0
-    dimension_idx = 0
+    counter, dimension_idx = 0, 0
 
     3.times do |idx|
       element_count = 2 ** (2 - idx) # 4, 2, 1
