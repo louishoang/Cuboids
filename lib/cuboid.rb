@@ -51,8 +51,39 @@ class Cuboid
     move_to!(new_origin)
   end
 
-  def rotate(about_dimension:, clockwise:)
-    rotate!(about_dimension, clockwise)
+  def rotate_along(axis:, clockwise:)
+    # axis should be 0, 1, or 2, corresponding with which axis
+    # x => 0; y => 1, z => 2
+    raise InvalidMoveError unless can_rotate?(axis, clockwise)
+    rotate_along!(axis, clockwise)
+  end
+
+  protected
+
+  def rotate_along!(axis, clockwise)
+    perform_rotation_along(axis, dimensions_according_to(axis, clockwise))
+    @vertices.update(dimensions: dimensions)
+    @faces.update(dimensions: dimensions)
+  end
+
+  def dimensions_according_to(axis, clockwise)
+    first_dim, second_dim = dimensions.take(axis) + dimensions.drop(axis + 1)
+
+    if axis == 0
+      clockwise ? [(second_dim * -1), first_dim] : [second_dim, (first_dim * -1)]
+    else
+      clockwise ? [second_dim, (first_dim * -1)] : [(second_dim * -1), first_dim]
+    end
+  end
+
+  def perform_rotation_along(axis, replacements)
+    idx = 0
+
+    dimensions.each_index do |dim_idx|
+      next if dim_idx == axis
+      dimensions[dim_idx] = replacements[idx]
+      idx += 1
+    end
   end
 
   private
@@ -64,35 +95,13 @@ class Cuboid
   end
 
   def can_move?(new_origin)
-    !container.has_move_violations_with?(self, new_origin)
+    dup_cuboid = Cuboid.new(origin: new_origin, dimensions: dimensions.dup, container: container)
+    !container.has_violations_with?(dup_cuboid)
   end
 
-  def rotate!(axis, clockwise)
-    # axis should be 0, 1, or 2, corresponding with which axis
-    # x => 0; y => 1, z => 2
-    first_dim, second_dim = dimensions.take(axis) + dimensions.drop(axis + 1)
-    if axis == 0
-      first_dim, second_dim = clockwise ? [(second_dim * -1), first_dim] : [second_dim, (first_dim * -1)]
-    else
-      first_dim, second_dim = clockwise ? [second_dim, (first_dim * -1)] : [(second_dim * -1), first_dim]
-    end
-
-    update_dimensions(axis, [first_dim, second_dim])
-    @vertices.update(dimensions: dimensions)
-    @faces.update(dimensions: dimensions)
-  end
-
-  def update_dimensions(axis, replacements)
-    idx = 0
-
-    dimensions.each_index do |dim_idx|
-      next if dim_idx == axis
-      dimensions[dim_idx] = replacements[idx] 
-      idx += 1
-    end
-  end
-
-  def can_rotate?(about_dimension, clockwise)
-    !container.has_rotation_violations_with?(self, new_origin)
+  def can_rotate?(axis, clockwise)
+    dup_cuboid = Cuboid.new(origin: origin, dimensions: dimensions.dup, container: container)
+    dup_cuboid.rotate_along!(axis, clockwise)
+    !container.has_violations_with?(dup_cuboid)
   end
 end

@@ -172,36 +172,30 @@ describe Cuboid do
     end
   end
 
-  describe '#rotate' do
+  describe '#rotate_along' do
     let(:cuboid) { Cuboid.new(origin: [4, 5, 0], dimensions: [3, 4, 5], container: container) }
 
     context "when there aren't restricting boundaries or other cuboids" do
       it 'rotates the cuboid according to a specified axis and direction' do
-        cuboid.rotate(about_dimension: 2, clockwise: false)
+        cuboid.rotate_along(axis: 2, clockwise: false)
 
         expect(cuboid.dimensions).to eq([-4, 3, 5])
       end
 
       it 'rotates the cuboid according to another specified axis and direction' do
-        cuboid.rotate(about_dimension: 0, clockwise: true)
+        cuboid.rotate_along(axis: 0, clockwise: true)
 
         expect(cuboid.dimensions).to eq([3, -5, 4])
       end
 
-      it 'rotates the cuboid according to a third specified axis and direction' do
-        cuboid.rotate(about_dimension: 0, clockwise: false)
-
-        expect(cuboid.dimensions).to eq([3, 5, -4])
-      end
-
       it 'rotates the corresponding vertices of the cuboid' do
-        cuboid.rotate(about_dimension: 2, clockwise: true)
+        cuboid.rotate_along(axis: 2, clockwise: true)
 
         expect(cuboid.vertices_collection).to match_array([[4, 2, 0], [4, 2, 5], [4, 5, 0], [4, 5, 5], [8, 2, 0], [8, 2, 5], [8, 5, 0], [8, 5, 5]])
       end
 
       it 'changes the face values of the cuboid' do
-        cuboid.rotate(about_dimension: 2, clockwise: false)
+        cuboid.rotate_along(axis: 2, clockwise: false)
 
         expect(cuboid.faces_collection).to match_array([[0, 4], [0, 5], [5, 8]])
       end
@@ -209,7 +203,7 @@ describe Cuboid do
 
     context 'when there is a restricting boundary' do
       it 'raises an InvalidMoveError' do
-        expect { cuboid.rotate(about_dimension: 0, clockwise: false) }.to raise_error(InvalidMoveError)
+        expect { cuboid.rotate_along(axis: 0, clockwise: false) }.to raise_error(InvalidMoveError)
       end
     end
 
@@ -219,7 +213,7 @@ describe Cuboid do
       it 'raises an InvalidMoveError' do
         container.add_cuboid(other_cuboid.origin, other_cuboid.dimensions)
 
-        expect { cuboid.rotate(about_dimension: 1, clockwise: false) }.to raise_error(InvalidMoveError)
+        expect { cuboid.rotate_along(axis: 1, clockwise: false) }.to raise_error(InvalidMoveError)
       end
     end
   end
