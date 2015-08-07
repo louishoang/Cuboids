@@ -49,11 +49,11 @@ class Faces
     both_align?(planes, other_planes) || overlapping?(planes, other_planes)
   end
 
-  def both_align?(p, other_p)
-    [0, 1].all? { |idx| p[idx] == other_p[idx] }
+  def both_align?(planes, other_planes)
+    [0, 1].all? { |idx| planes[idx] == other_planes[idx] }
   end
 
   def overlapping?(p, other_p)
-    p.any? { |dimension| dimension > other_p.first && dimension < other_p.last }
+    p.any? { |dim| dim > other_p.first && dim < other_p.last }
   end
 end
