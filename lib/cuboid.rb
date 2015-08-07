@@ -1,5 +1,4 @@
-class InvalidMoveError < StandardError
-end
+InvalidMoveError = Class.new(StandardError)
 
 class Cuboid
   attr_reader :origin, :dimensions, :faces, :container
