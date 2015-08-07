@@ -1,9 +1,16 @@
 require 'spec_helper'
 
 describe Boundaries do
-  describe '#has_outside_or_overlapping?' do
-    let(:boundaries) { Boundaries.new(origin: [0, 0, 0], dimensions: [10, 10, 10])}
+  let(:boundaries) { Boundaries.new(origin: [0, 0, 0], dimensions: [10, 10, 10])}
 
+  describe '#collection' do
+    it 'shows the collection of face values according to its origin and dimensions' do
+      expect(boundaries.collection.length).to eq(3)
+      expect(boundaries.collection).to match_array([[0, 10], [0, 10], [0, 10]])
+    end
+  end
+
+  describe '#has_outside_or_overlapping?' do
     context 'when a set of boundaries has 3 overlaps with a set of faces' do
       let(:faces) { Faces.new(origin: [9, 9, 9], dimensions: [2, 2, 2]) }
 

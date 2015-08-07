@@ -42,7 +42,7 @@ class Container
   end
 
   def has_violations_with?(cuboid)
-    dup_container = self.class.new(origin: origin, dimensions: dimensions)
+    dup_container = self.class.new(origin: origin.dup, dimensions: dimensions.dup)
 
     @cuboids.each do |other_cuboid|
       next if cuboid == other_cuboid
@@ -51,6 +51,8 @@ class Container
 
     dup_container.has_an_out_of_bounds?(cuboid) || dup_container.has_other_intersecting_cuboid_with?(cuboid)
   end
+
+  protected
 
   def has_other_intersecting_cuboid_with?(cuboid)
     @cuboids.any? do |other_cuboid|
